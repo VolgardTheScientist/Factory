@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
             offsetY = 0;
         }
 
+        // Ensure any existing debug outlines are cleared on resize
+        document.querySelectorAll('.debug-outline').forEach(el => el.remove());
+
         // 4. Map the relative coordinates to the newly calculated scale and offset
         areas.forEach(area => {
             const roomType = area.getAttribute('data-room');
@@ -64,6 +67,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 
                 area.setAttribute('coords', newCoords.join(','));
+
+                // --- VISUAL DEBUGGING OVERLAYS ---
+                // We will draw an absolute positioned polygon to match the image map coords
+                // so we can see *exactly* what the math is targeting visually.
+                const debugDiv = document.createElement('div');
+                debugDiv.className = 'debug-outline';
+                debugDiv.style.position = 'absolute';
+                debugDiv.style.top = '0';
+                debugDiv.style.left = '0';
+                debugDiv.style.width = '100%';
+                debugDiv.style.height = '100%';
+                debugDiv.style.pointerEvents = 'none'; // so it doesn't block clicks
+                debugDiv.style.zIndex = '999';
+                
+                // Convert coordinates array to clip-path polygon
+                const clipPathCoords = [];
+                for (let i = 0; i < newCoords.length; i += 2) {
+                    clipPathCoords.push(`${newCoords[i]}px ${newCoords[i+1]}px`);
+                }
+                
+                debugDiv.style.clipPath = `polygon(${clipPathCoords.join(', ')})`;
+                debugDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.4)'; // Red semi-transparent box
+                debugDiv.style.border = '2px solid red'; // Note: borders don't show well on clip-path, using bg instead
+                
+                // Add title for visual clarity
+                const label = document.createElement('div');
+                label.textContent = roomType;
+                label.style.position = 'absolute';
+                label.style.left = `${newCoords[0]}px`;
+                label.style.top = `${newCoords[1] - 20}px`;
+                label.style.color = 'red';
+                label.style.fontSize = '12px';
+                label.style.fontWeight = 'bold';
+                label.style.backgroundColor = 'black';
+                
+                const container = mainHallImg.parentElement;
+                debugDiv.appendChild(label);
+                container.appendChild(debugDiv);
             }
         });
     }
