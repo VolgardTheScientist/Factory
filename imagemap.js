@@ -7,12 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // These relative coordinates define the polygons as percentages [0.0 to 1.0] 
     // mapped to the ORIGINAL image resolution. 
-    // You must adjust these values to perfectly trace the glowing screens of your specific image.
+    // Calculated directly from the 3164x1344 main_hall.jpg
     const relativeCoords = {
-        'architecture': [0.15, 0.40, 0.30, 0.40, 0.30, 0.60, 0.15, 0.60], 
-        'design':       [0.35, 0.40, 0.50, 0.40, 0.50, 0.60, 0.35, 0.60],
-        'research':     [0.55, 0.40, 0.70, 0.40, 0.70, 0.60, 0.55, 0.60],
-        'large-p':      [0.75, 0.40, 0.90, 0.40, 0.90, 0.60, 0.75, 0.60]
+        // [top-left-x, top-left-y, top-right-x, top-right-y, bottom-right-x, bottom-right-y, bottom-left-x, bottom-left-y]
+        'architecture': [0.457, 0.472, 0.490, 0.473, 0.489, 0.718, 0.455, 0.713],
+        'design':       [0.510, 0.498, 0.536, 0.499, 0.536, 0.685, 0.510, 0.683],
+        'large-p':      [0.538, 0.432, 0.590, 0.432, 0.590, 0.727, 0.538, 0.727],
+        'research':     [0.627, 0.470, 0.666, 0.470, 0.666, 0.712, 0.628, 0.712]
     };
 
     function resizeImageMap() {
