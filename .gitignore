@@ -1,0 +1,14 @@
+# The Virtual Gallery .gitignore
+
+# Ignore all graphic files and generated assets in the assets folder
+/assets/*
+
+# Except for the .gitkeep file, which preserves the empty folder structure for users pulling the repo
+!/assets/.gitkeep
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore IDE files
+.vscode/
+.idea/
