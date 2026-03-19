@@ -25,8 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
         preloadedImages[key] = img;
     }
 
+    // Map URL paths to room identifiers
+    const routeMapping = {
+        'architecture': 'architecture',
+        'design': 'design',
+        'about-piotr-piotrowski': 'large-p', // SEO URL mapping
+        'research': 'research'
+    };
+    
+    // Reverse map for generating URLs
+    const reverseRouteMapping = {
+        'architecture': 'architecture',
+        'design': 'design',
+        'large-p': 'about-piotr-piotrowski',
+        'research': 'research'
+    };
+
     // Function to handle fade transition
-    function switchView(fromView, toView, newImageSrc = null, roomName = null) {
+    function switchView(fromView, toView, newImageSrc = null, roomName = null, pushHistory = true, roomType = null) {
         fadeOverlay.classList.add('active'); // Fade out
 
         setTimeout(() => {
@@ -38,6 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (roomName) {
                 roomTitle.textContent = roomName.toUpperCase();
+            }
+
+            // Handle History API for SEO / Routing
+            if (pushHistory) {
+                if (toView === mainHall) {
+                    history.pushState({ view: 'main' }, '', '/');
+                } else if (roomType) {
+                    const urlPath = reverseRouteMapping[roomType] || roomType;
+                    history.pushState({ view: 'sub', room: roomType, name: roomName }, '', `/${urlPath}`);
+                }
+            }
+            
+            // Re-trigger resize map calculations just in case main-hall was hidden
+            if (toView === mainHall && typeof window.resizeImageMap === 'function') {
+                window.resizeImageMap();
             }
 
             fadeOverlay.classList.remove('active'); // Fade in
@@ -53,15 +84,72 @@ document.addEventListener('DOMContentLoaded', () => {
             const roomName = area.getAttribute('title');
 
             if (roomType && newSrc) {
-                switchView(mainHall, subRoom, newSrc, roomName);
+                switchView(mainHall, subRoom, newSrc, roomName, true, roomType);
             }
         });
     });
 
     // Click handler for returning to Main Hall
     backBtn.addEventListener('click', () => {
-        switchView(subRoom, mainHall);
+        switchView(subRoom, mainHall, null, null, true);
     });
+
+    // Handle Browser Back/Forward buttons
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.view === 'sub') {
+            const roomType = e.state.room;
+            const newSrc = preloadedImages[roomType].src;
+            switchView(mainHall, subRoom, newSrc, e.state.name, false);
+        } else {
+            switchView(subRoom, mainHall, null, null, false);
+        }
+    });
+
+    // Initialize SPA state on direct load
+    function initSPA() {
+        const path = window.location.pathname.replace(/^\/|\/$/g, ''); // Strip leading/trailing slashes
+        
+        // If loading from a subdirectory for SEO (e.g. /architecture/), handle asset path adjustments
+        const isSubDir = path.includes('/');
+        
+        let targetRoom = null;
+        let roomTypeKey = null;
+
+        // Extract root path
+        const rootPath = path.split('/')[0];
+        
+        if (routeMapping[rootPath]) {
+            roomTypeKey = routeMapping[rootPath];
+            targetRoom = document.querySelector(`area[data-room="${roomTypeKey}"]`);
+        }
+
+        if (targetRoom) {
+            // Immediately show subroom without fade
+            mainHall.classList.remove('active');
+            subRoom.classList.add('active');
+            
+            const roomName = targetRoom.getAttribute('title');
+            
+            // Adjust image path if loaded from a physical subdirectory
+            let imgSrc = preloadedImages[roomTypeKey].src;
+            if (isSubDir || path !== "") { 
+                // In physical deployment, if we are in /architecture/index.html, assets are at ../assets
+                // But JS image preloader resolves absolutely. We just use the preloader's absolute src.
+            }
+            
+            subRoomImg.src = imgSrc;
+            roomTitle.textContent = roomName.toUpperCase();
+            
+            // Replace initial history state so 'back' works
+            history.replaceState({ view: 'sub', room: roomTypeKey, name: roomName }, '', `/${path}`);
+        } else {
+            // Default to main hall
+            history.replaceState({ view: 'main' }, '', '/');
+        }
+    }
+
+    // Run initialization
+    initSPA();
 
     // Handle initial orientation prompt (Landscape Enforcement)
     const landscapePrompt = document.getElementById('landscape-prompt');

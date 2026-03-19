@@ -16,8 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'research':     [0.631, 0.476, 0.681, 0.476, 0.681, 0.698, 0.631, 0.698]
     };
 
-    function resizeImageMap() {
-        if (!mainHallImg || !mainHallImg.naturalWidth) return;
+    // Expose resizeImageMap globally so script.js can call it when navigating back
+    window.resizeImageMap = function resizeImageMap() {
+        // If main hall is hidden (e.g. user loaded directly into a subpage via URL), 
+        // clientWidth is 0, so we skip calculation until it becomes visible.
+        if (!mainHallImg || !mainHallImg.naturalWidth || mainHallImg.clientWidth === 0) return;
         
         // 1. Get original image aspect ratio
         const imgNaturalWidth = mainHallImg.naturalWidth;
