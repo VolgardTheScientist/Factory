@@ -45,17 +45,26 @@
         <div id="sub-room" class="view">
             <div class="image-container">
                 <img src="" alt="Room" id="sub-room-img">
+                
                 <button id="back-btn" class="diegetic-btn">
                     <span class="glow-text">&lt; Back to Main Hall</span>
                 </button>
                 <div id="room-content">
                     <h1 id="room-title">Room</h1>
                 </div>
+
+                <!-- Scalable Placeholders (Specifically for Architecture Room currently) -->
+                <div id="title-placeholder" class="scalable-element architecture-element hidden">Title Placeholder</div>
+                <div id="desc-placeholder" class="scalable-element architecture-element hidden">Description Placeholder</div>
+                <div id="portfolio-placeholder" class="scalable-element architecture-element hidden">Portfolio Placeholder</div>
+                <div id="back-placeholder" class="scalable-element architecture-element hidden">Back Button Placeholder</div>
+
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
     <script src="imagemap.js"></script>
+    <script src="elementScaler.js"></script>
 </body>
 </html>

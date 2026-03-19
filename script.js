@@ -58,6 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 roomTitle.textContent = roomName.toUpperCase();
             }
 
+            // Toggle architecture placeholders
+            const archElements = document.querySelectorAll('.architecture-element');
+            if (toView === subRoom && roomType === 'architecture') {
+                archElements.forEach(el => el.classList.remove('hidden'));
+                if (typeof window.resizeElements === 'function') {
+                    // Slight delay to ensure image has loaded and dimensions are correct
+                    setTimeout(window.resizeElements, 50);
+                }
+            } else {
+                archElements.forEach(el => el.classList.add('hidden'));
+            }
+
             // Handle History API for SEO / Routing
             if (pushHistory) {
                 if (toView === mainHall) {
@@ -141,6 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             subRoomImg.src = imgSrc;
             roomTitle.textContent = roomName.toUpperCase();
+            
+            // Toggle architecture placeholders if directly loading into architecture
+            if (roomTypeKey === 'architecture') {
+                document.querySelectorAll('.architecture-element').forEach(el => el.classList.remove('hidden'));
+                if (typeof window.resizeElements === 'function') {
+                    // Short timeout to ensure image dimensions are populated
+                    setTimeout(window.resizeElements, 100);
+                }
+            }
             
             // Replace initial history state so 'back' works
             history.replaceState({ view: 'sub', room: roomTypeKey, name: roomName }, '', `/${path}`);
