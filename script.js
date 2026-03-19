@@ -11,11 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const roomTitle = document.getElementById('room-title');
 
     // Preload Sub-room images
+    // Note: Paths MUST be absolute (start with /) so they resolve correctly 
+    // when a user refreshes inside a physical SEO subdirectory (e.g. /architecture/)
     const roomImages = {
-        'architecture': 'assets/architecture.jpg',
-        'design': 'assets/design.jpg',
-        'research': 'assets/research.jpg',
-        'large-p': 'assets/large_p.jpg'
+        'architecture': '/assets/architecture.jpg',
+        'design': '/assets/design.jpg',
+        'research': '/assets/research.jpg',
+        'large-p': '/assets/large_p.jpg'
     };
 
     const preloadedImages = {};

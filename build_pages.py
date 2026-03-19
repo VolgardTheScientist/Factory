@@ -26,10 +26,12 @@ for folder_name, page_title in pages.items():
     # assets/... -> ../assets/...
     
     modified_html = html_content
-    modified_html = re.sub(r'href="styles.css"', 'href="../styles.css"', modified_html)
-    modified_html = re.sub(r'src="script.js"', 'src="../script.js"', modified_html)
-    modified_html = re.sub(r'src="imagemap.js"', 'src="../imagemap.js"', modified_html)
-    modified_html = re.sub(r'src="assets/', 'src="../assets/', modified_html)
+    # Use absolute paths from domain root for all assets so reloading works properly
+    # from anywhere without path nesting confusion
+    modified_html = re.sub(r'href="styles.css"', 'href="/styles.css"', modified_html)
+    modified_html = re.sub(r'src="script.js"', 'src="/script.js"', modified_html)
+    modified_html = re.sub(r'src="imagemap.js"', 'src="/imagemap.js"', modified_html)
+    modified_html = re.sub(r'src="assets/', 'src="/assets/', modified_html)
     
     # Inject SEO title
     seo_title = f"{page_title} - The Virtual Gallery"
