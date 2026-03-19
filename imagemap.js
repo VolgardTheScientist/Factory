@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Calculated directly from the 3164x1344 main_hall.jpg
     const relativeCoords = {
         // [top-left-x, top-left-y, top-right-x, top-right-y, bottom-right-x, bottom-right-y, bottom-left-x, bottom-left-y]
-        'architecture': [0.417, 0.475, 0.470, 0.475, 0.470, 0.713, 0.417, 0.713],
-        'design':       [0.485, 0.504, 0.513, 0.504, 0.513, 0.680, 0.485, 0.680],
-        'large-p':      [0.538, 0.432, 0.590, 0.432, 0.590, 0.727, 0.538, 0.727],
-        'research':     [0.627, 0.470, 0.666, 0.470, 0.666, 0.712, 0.628, 0.712]
+        'architecture': [0.418, 0.475, 0.4688, 0.475, 0.4688, 0.713, 0.418, 0.713],
+        'design':       [0.486, 0.504, 0.513, 0.504, 0.513, 0.680, 0.486, 0.680],
+        'large-p':      [0.515, 0.438, 0.581, 0.438, 0.581, 0.721, 0.515, 0.721],
+        'research':     [0.631, 0.476, 0.681, 0.476, 0.681, 0.698, 0.631, 0.698]
     };
 
     function resizeImageMap() {
