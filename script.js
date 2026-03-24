@@ -10,14 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const subRoomImg = document.getElementById('sub-room-img');
     const roomTitle = document.getElementById('room-title');
 
+    // Use absolute paths from domain root for all assets so reloading works properly
+    // This allows assets to load correctly regardless of whether the path is /, /architecture/, etc.
+    const basePath = '/';
+
     // Preload Sub-room images
-    // Note: Paths MUST be absolute (start with /) so they resolve correctly 
-    // when a user refreshes inside a physical SEO subdirectory (e.g. /architecture/)
     const roomImages = {
-        'architecture': '/assets/architecture.jpg',
-        'design': '/assets/design.jpg',
-        'research': '/assets/research.jpg',
-        'large-p': '/assets/large_p.jpg'
+        'architecture': `${basePath}assets/architecture.jpg`,
+        'design': `${basePath}assets/design.jpg`,
+        'research': `${basePath}assets/research.jpg`,
+        'large-p': `${basePath}assets/large_p.jpg`
     };
 
     const preloadedImages = {};
