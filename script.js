@@ -64,12 +64,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const archElements = document.querySelectorAll('.architecture-element');
             if (toView === subRoom && roomType === 'architecture') {
                 archElements.forEach(el => el.classList.remove('hidden'));
+                // Hide default subRoom UI elements like back-btn and room-content title
+                if(backBtn) backBtn.style.display = 'none';
+                const roomContent = document.getElementById('room-content');
+                if(roomContent) roomContent.style.display = 'none';
+
                 if (typeof window.resizeElements === 'function') {
                     // Slight delay to ensure image has loaded and dimensions are correct
                     setTimeout(window.resizeElements, 50);
                 }
             } else {
                 archElements.forEach(el => el.classList.add('hidden'));
+                // Restore default subRoom UI elements if not in architecture
+                if(backBtn) backBtn.style.display = '';
+                const roomContent = document.getElementById('room-content');
+                if(roomContent) roomContent.style.display = '';
             }
 
             // Handle History API for SEO / Routing
@@ -109,6 +118,22 @@ document.addEventListener('DOMContentLoaded', () => {
     backBtn.addEventListener('click', () => {
         switchView(subRoom, mainHall, null, null, true);
     });
+
+    // Handle new back placeholder for Architecture room
+    const backPlaceholder = document.getElementById('back-placeholder');
+    if (backPlaceholder) {
+        backPlaceholder.addEventListener('click', () => {
+            switchView(subRoom, mainHall, null, null, true);
+        });
+
+        // Hover text effect for back placeholder
+        backPlaceholder.addEventListener('mouseenter', () => {
+            backPlaceholder.textContent = backPlaceholder.getAttribute('data-hover-text');
+        });
+        backPlaceholder.addEventListener('mouseleave', () => {
+            backPlaceholder.textContent = backPlaceholder.getAttribute('data-default-text');
+        });
+    }
 
     // Handle Browser Back/Forward buttons
     window.addEventListener('popstate', (e) => {
@@ -159,6 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Toggle architecture placeholders if directly loading into architecture
             if (roomTypeKey === 'architecture') {
                 document.querySelectorAll('.architecture-element').forEach(el => el.classList.remove('hidden'));
+                // Hide default subRoom UI elements
+                if(backBtn) backBtn.style.display = 'none';
+                const roomContent = document.getElementById('room-content');
+                if(roomContent) roomContent.style.display = 'none';
+
                 if (typeof window.resizeElements === 'function') {
                     // Short timeout to ensure image dimensions are populated
                     setTimeout(window.resizeElements, 100);

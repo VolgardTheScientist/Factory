@@ -12,3 +12,5 @@
 # Ignore IDE files
 .vscode/
 .idea/
+node_modules/
+server_output.log

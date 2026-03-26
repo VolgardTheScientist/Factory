@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Format: [top, left, width, height] as percentages (0.0 to 1.0)
     // Values estimated visually from the user-provided layout
     const architecturePlaceholders = {
-        'title-placeholder': [0.10, 0.20, 0.40, 0.15],
-        'desc-placeholder': [0.30, 0.20, 0.25, 0.40],
-        'portfolio-placeholder': [0.30, 0.50, 0.35, 0.40],
-        'backward-placeholder': [0.45, 0.40, 0.05, 0.10], // Left of portfolio
-        'forward-placeholder': [0.45, 0.90, 0.05, 0.10],  // Right of portfolio
-        'back-placeholder': [0.80, 0.20, 0.15, 0.08]
+        'title-placeholder': [0.13, 0.08, 0.30, 0.10],
+        'desc-placeholder': [0.25, 0.08, 0.30, 0.45],
+        'portfolio-placeholder': [0.13, 0.46, 0.46, 0.57],
+        'backward-placeholder': [0.60, 0.42, 0.02, 0.10], // Left of portfolio
+        'forward-placeholder': [0.60, 0.44, 0.02, 0.10],  // Right of portfolio
+        'back-placeholder': [0.80, 0.08, 0.30, 0.10]
     };
 
     window.resizeElements = function resizeElements() {
