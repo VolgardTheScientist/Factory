@@ -2,6 +2,8 @@
 
 Welcome to the **Virtual Gallery**! This project provides an immersive, spatial web experience set within a moody, decaying industrial factory. Users navigate through physical "rooms" (Architecture, Design, Research, etc.) by interacting with glowing digital screens natively embedded within the background environment. 
 
+This is a test project built solely using Jules - An Autonomous Coding Agent.
+
 This repository contains the foundational structure, mechanics, and spatial navigation logic built with lightweight Vanilla HTML, CSS, and JS. 
 
 ## 📁 Project Structure & Graphic Files
